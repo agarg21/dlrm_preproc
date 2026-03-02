@@ -1,0 +1,5 @@
+# Runtime
+torch>=2.0          # torch.jit.script + torch.compile
+
+# Optional: real TorchRec (GPU/Linux only; model/dlrm.py has a CPU fallback)
+# torchrec            # pip install torchrec --index-url https://download.pytorch.org/whl/cpu

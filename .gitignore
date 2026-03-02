@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+build/
+dist/
+*.egg-info/
+.venv/
+
+# Generated artifacts (keep the placeholder)
+artifacts/*.pt
+artifacts/*.pth
