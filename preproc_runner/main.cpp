@@ -134,11 +134,15 @@ int main(int argc, char* argv[]) {
 
     // ── build IValue inputs for module.forward() ──────────────────────────────
     // FeaturePreproc.forward(dense, sparse_indices: List[Tensor], sparse_offsets: List[Tensor])
+    //
+    // PyTorch 2.x requires typed c10::List<at::Tensor> for List[Tensor] args.
+    // Constructing IValue from std::vector<IValue> creates a generic
+    // c10::List<IValue> which is rejected by a static assertion since PyTorch 2.0.
     auto to_ivalue_list = [](const std::vector<torch::Tensor>& v) -> torch::IValue {
-        std::vector<torch::IValue> iv;
-        iv.reserve(v.size());
-        for (const auto& t : v) iv.emplace_back(t);
-        return torch::IValue(iv);
+        c10::List<at::Tensor> list;
+        list.reserve(v.size());
+        for (const auto& t : v) list.push_back(t);
+        return torch::IValue(list);
     };
 
     std::vector<torch::IValue> inputs = {
